@@ -14,9 +14,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.onOpenConnection();
+    this.onSocketIOEvents();
   } 
-  onOpenConnection = async () => {
+  onSocketIOEvents = async () => {
       const newSocket = io('http://localhost:5000/');
     
       newSocket.on('disconnect', () => {
@@ -27,6 +27,13 @@ class App extends Component {
         const {data} = obj
         this.handleCallStatus(data);
       })
+ 
+      newSocket.on('invalidNumber', (obj) => {
+        const {data} = obj
+        alert("invalid phone number: " + data);
+      })
+       
+
       this.setState({socket: newSocket});
   };
 
